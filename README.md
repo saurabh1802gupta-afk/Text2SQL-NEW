@@ -1,87 +1,67 @@
-# 🚀 Text2SQL App
+🚀 Text2SQL Data Agent
+A pure-Python, LLM-powered Text-to-SQL agent that turns your PostgreSQL database into a conversational partner.
 
-A full-stack **Text-to-SQL** application that converts natural language questions into executable SQL queries using Large Language Models (LLMs).
+Built entirely with Streamlit, this application eliminates the standard frontend/backend divide, offering a seamless, interactive chat interface where natural language questions instantly render as executable queries and interactive dataframes.
 
-The application enables users to interact with relational databases using plain English instead of writing SQL manually.
+✨ Features
+100% Python Architecture: No npm, no JavaScript, no complex API routing.
 
----
+Native Chat Interface: Built-in Streamlit conversational UI optimized for AI agents.
 
-## ✨ Features
+Interactive DataFrames: Query results are instantly rendered as sortable, filterable, and downloadable tables.
 
-* Convert natural language into SQL queries
-* PostgreSQL database integration
-* FastAPI REST API backend
-* React + TypeScript frontend
-* LLM-powered SQL generation
-* Automatic database schema loading
-* Modular project architecture
-* Easily extensible for different LLMs
+Live Schema Introspection: A dynamic sidebar that automatically reads and maps your database schema for the AI.
 
----
+LLM Agnostic: Designed to work smoothly with local models via Ollama (Qwen 2.5) or cloud providers.
 
-## 🛠️ Tech Stack
+🛠️ Tech Stack
+Framework & UI
+Streamlit (Provides both the web server and the reactive UI)
 
-### Frontend
+Pandas (For data manipulation and table rendering)
 
-* React
-* TypeScript
-* Vite
+Data & AI Engine
+Python 3.12+
 
-### Backend
+SQLAlchemy & Psycopg2 (Database connection and schema extraction)
 
-* FastAPI
-* SQLAlchemy
-* Psycopg2
-* Python 3.12+
+Ollama (Qwen 2.5) (Local LLM inference)
 
-### Database
+Database
+PostgreSQL
 
-* PostgreSQL
+🖥️ The Streamlit UI Experience
+Instead of traditional web pages, the UI is built as an interactive dashboard:
 
-### AI / NLP
+The Control Panel (Sidebar): Contains your database connection parameters, model selection dropdowns, and an expandable accordion showing your current database schema (tables and columns).
 
-* Qwen 2.5 (Planned)
-* Prompt Engineering
+The Chat Stream (Main Stage): A message history where you interact with the agent.
 
----
+The Data Output: When the agent executes SQL, the response is injected directly into the chat stream as an interactive Pandas DataFrame that you can download as a CSV with one click.
 
-## 📁 Project Structure
-
-```text
-text2sql-app/
+📁 Project Structure
+Plaintext
+text2sql-agent/
 │
-├── backend/
-│   ├── app/
-│   ├── config/
-│   ├── database/
-│   ├── services/
-│   ├── models/
-│   └── main.py
+├── core/
+│   ├── __init__.py
+│   ├── database.py       # SQLAlchemy engines & schema logic
+│   ├── llm.py            # Ollama integrations & prompt chaining
+│   └── sql_parser.py     # Cleans and validates LLM output
 │
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   └── package.json
-│
+├── app.py                # The main Streamlit UI application
+├── requirements.txt
+├── .env
 └── README.md
-```
+⚙️ Installation & Run Guide
+Because the app is pure Python, setup takes less than a minute.
 
----
-
-## ⚙️ Installation
-
-### Clone the repository
-
-```bash
-git clone https://github.com/saurabhgupta/text2sql-app.git
-cd text2sql-app
-```
-
-### Backend Setup
-
-```bash
-cd backend
-
+1. Clone the repository
+Bash
+git clone https://github.com/saurabhgupta/text2sql-agent.git
+cd text2sql-agent
+2. Set up the Python Environment
+Bash
 python -m venv .venv
 
 source .venv/bin/activate      # macOS/Linux
@@ -89,99 +69,62 @@ source .venv/bin/activate      # macOS/Linux
 .venv\Scripts\activate         # Windows
 
 pip install -r requirements.txt
-```
+3. Environment Variables
+Create a .env file in the root directory:
 
-### Environment Variables
-
-Create a `.env` file inside the backend directory (see `backend/.env.example` for reference).
-
-```env
-DB_USER=postgres
-DB_PASSWORD=your_password
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=your_database
-
+Code snippet
+DB_URL=postgresql+psycopg2://postgres:your_password@localhost:5432/your_database
 OLLAMA_MODEL=qwen2.5:7b
-```
+4. Launch the App
+Bash
+streamlit run app.py
+A browser window will automatically open to http://localhost:8501.
 
-### Run Backend
-
-```bash
-uvicorn main:app --reload
-```
-
----
-
-### Frontend Setup
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
----
-
-## 🏛️ Architecture
-
-```text
-User
+🏛️ Architecture Flow
+Plaintext
+User Input (Streamlit Chat)
    │
    ▼
-React Frontend
+app.py (State Management)
    │
    ▼
-FastAPI Backend
+Schema Injection (database.py)
    │
    ▼
-Schema Extraction
+Local LLM via Ollama (llm.py)
    │
    ▼
-LLM
+SQL Execution (Pandas `read_sql`)
    │
    ▼
-Generated SQL
-   │
-   ▼
-PostgreSQL
-   │
-   ▼
-Query Results
-```
+Streamlit DataFrame Render
+📌 Roadmap
+[x] Streamlit UI scaffolding
 
----
+[x] PostgreSQL connection pooling
 
-## 📌 Roadmap
+[ ] Ollama prompt engineering for Qwen 2.5
 
-* [x] Backend setup
-* [x] PostgreSQL connection
-* [x] SQLAlchemy integration
-* [x] React frontend setup
-* [ ] LLM integration
-* [ ] Prompt engineering
-* [ ] SQL validation
-* [ ] Query history
-* [ ] Docker support
-* [ ] CI/CD pipeline
+[ ] Read-only execution safeguards
 
----
+[ ] Natural language explanations of the generated SQL
 
-## 🤝 Contributing
+[ ] Multi-database support (MySQL, SQLite)
 
+[ ] Data visualization (Auto-generating charts using st.bar_chart based on query results)
+
+🤝 Contributing
 Contributions, suggestions, and issue reports are welcome.
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Open a Pull Request
+Fork the repository
 
----
+Create a feature branch
 
-## 👨‍💻 Author
+Commit your changes
 
-**Saurabh Gupta**
+Open a Pull Request
+
+👨‍💻 Author
+Saurabh Gupta
 
 If you found this project interesting, feel free to ⭐ the repository.
