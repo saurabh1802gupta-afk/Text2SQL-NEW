@@ -39,7 +39,7 @@ The Chat Stream (Main Stage): A message history where you interact with the agen
 
 The Data Output: When the agent executes SQL, the response is injected directly into the chat stream as an interactive Pandas DataFrame that you can download as a CSV with one click.
 
-### 📁 Project Structure
+ 📁 Project Structure
 Plaintext
 text2sql-agent/
 │
